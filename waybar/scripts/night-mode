@@ -1,0 +1,88 @@
+#!/bin/sh
+set -eu
+
+temp="${WAYBAR_NIGHT_TEMP:-3400}"
+service="wlsunset-waybar.service"
+
+is_running() {
+  systemctl --user is-active --quiet "$service" 2>/dev/null
+}
+
+tool() {
+  if command -v wlsunset >/dev/null 2>&1; then
+    printf 'wlsunset\n'
+  elif command -v gammastep >/dev/null 2>&1; then
+    printf 'gammastep\n'
+  elif command -v redshift >/dev/null 2>&1; then
+    printf 'redshift\n'
+  else
+    printf 'missing\n'
+  fi
+}
+
+status() {
+  backend="$(tool)"
+
+  if is_running; then
+    printf '{"text":"󰖔 Night","class":"on","tooltip":"Night color on (%s, %sK) - click to turn off"}\n' "$backend" "$temp"
+  elif [ "$backend" = "missing" ]; then
+    printf '{"text":"󰖨 Night","class":"missing","tooltip":"Install wlsunset to enable night color"}\n'
+  else
+    printf '{"text":"󰖨 Night","class":"off","tooltip":"Night color off (%s) - click to warm the display"}\n' "$backend"
+  fi
+}
+
+start_tool() {
+  backend="$(tool)"
+
+  case "$backend" in
+    wlsunset)
+      systemctl --user start "$service"
+      ;;
+    gammastep)
+      gammastep -O "$temp" >/dev/null 2>&1 &
+      ;;
+    redshift)
+      redshift -O "$temp" >/dev/null 2>&1 &
+      ;;
+    *)
+      exit 1
+      ;;
+  esac
+}
+
+stop_tool() {
+  backend="$(tool)"
+  case "$backend" in
+    wlsunset)
+      systemctl --user stop "$service"
+      ;;
+    gammastep)
+      gammastep -x >/dev/null 2>&1 || true
+      ;;
+    redshift)
+      redshift -x >/dev/null 2>&1 || true
+      ;;
+  esac
+
+}
+
+toggle() {
+  if is_running; then
+    stop_tool
+  else
+    start_tool
+  fi
+}
+
+case "${1:-status}" in
+  status)
+    status
+    ;;
+  toggle)
+    toggle
+    ;;
+  *)
+    exit 2
+    ;;
+esac

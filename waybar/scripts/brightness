@@ -1,0 +1,111 @@
+#!/bin/sh
+set -eu
+
+device="$(find /sys/class/backlight -mindepth 1 -maxdepth 1 | head -n 1)"
+state_dir="${XDG_RUNTIME_DIR:-/tmp}/waybar"
+state_file="$state_dir/brightness-before-night"
+
+read_value() {
+  cat "$device/$1"
+}
+
+set_value() {
+  value="$1"
+  max="$(read_value max_brightness)"
+  subsystem="backlight"
+  name="$(basename "$device")"
+  if [ "$value" -lt 1 ]; then
+    value=1
+  fi
+  if [ "$value" -gt "$max" ]; then
+    value="$max"
+  fi
+
+  if [ -w "$device/brightness" ]; then
+    printf '%s\n' "$value" > "$device/brightness"
+  elif command -v busctl >/dev/null 2>&1 && command -v loginctl >/dev/null 2>&1; then
+    session_id="$(loginctl show-user "$USER" -p Display --value)"
+    if [ -z "$session_id" ]; then
+      session_id="$(loginctl list-sessions --no-legend | awk -v user="$USER" '$3 == user && $5 == "user" { print $1; exit }')"
+    fi
+    session_path="$(busctl call org.freedesktop.login1 /org/freedesktop/login1 org.freedesktop.login1.Manager GetSession s "$session_id" | awk '{ gsub(/"/, "", $2); print $2 }')"
+    busctl call org.freedesktop.login1 "$session_path" org.freedesktop.login1.Session SetBrightness ssu "$subsystem" "$name" "$value" >/dev/null
+  else
+    exit 1
+  fi
+}
+
+percent_to_value() {
+  percent="$1"
+  max="$(read_value max_brightness)"
+  value=$((max * percent / 100))
+  if [ "$value" -lt 1 ]; then
+    value=1
+  fi
+  printf '%s\n' "$value"
+}
+
+current_percent() {
+  current="$(read_value brightness)"
+  max="$(read_value max_brightness)"
+  printf '%s\n' "$((current * 100 / max))"
+}
+
+status() {
+  percent="$(current_percent)"
+  printf '{"text":"󰃠 %s%%","tooltip":"Brightness: %s%% - scroll to adjust, click to cycle","percentage":%s}\n' "$percent" "$percent" "$percent"
+}
+
+change_percent() {
+  delta="$1"
+  percent="$(current_percent)"
+  target=$((percent + delta))
+  if [ "$target" -lt 5 ]; then
+    target=5
+  fi
+  if [ "$target" -gt 100 ]; then
+    target=100
+  fi
+  set_value "$(percent_to_value "$target")"
+}
+
+case "${1:-status}" in
+  status)
+    status
+    ;;
+  up)
+    change_percent 5
+    ;;
+  down)
+    change_percent -5
+    ;;
+  cycle)
+    percent="$(current_percent)"
+    if [ "$percent" -lt 35 ]; then
+      target=55
+    elif [ "$percent" -lt 70 ]; then
+      target=85
+    else
+      target=25
+    fi
+    set_value "$(percent_to_value "$target")"
+    ;;
+  save)
+    mkdir -p "$state_dir"
+    read_value brightness > "$state_file"
+    ;;
+  restore)
+    if [ -f "$state_file" ]; then
+      set_value "$(cat "$state_file")"
+      rm -f "$state_file"
+    else
+      set_value "$(percent_to_value 80)"
+    fi
+    ;;
+  set-percent)
+    set_value "$(percent_to_value "${2:-40}")"
+    ;;
+  *)
+    exit 2
+    ;;
+esac

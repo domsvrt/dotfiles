@@ -1,0 +1,69 @@
+#!/bin/sh
+set -eu
+
+have_ppctl() {
+  command -v powerprofilesctl >/dev/null 2>&1
+}
+
+current_profile() {
+  powerprofilesctl get 2>/dev/null || printf "unknown\n"
+}
+
+next_profile() {
+  case "$1" in
+    power-saver) printf "balanced\n" ;;
+    balanced) printf "performance\n" ;;
+    performance) printf "power-saver\n" ;;
+    *) printf "balanced\n" ;;
+  esac
+}
+
+status() {
+  if ! have_ppctl; then
+    printf '{"text":"󰾅 Power","class":"missing","tooltip":"powerprofilesctl not found"}\n'
+    exit 0
+  fi
+
+  profile="$(current_profile)"
+  case "$profile" in
+    power-saver)
+      printf '{"text":"󰾆 Saver","class":"saver","tooltip":"Power Saver mode - click to switch"}\n'
+      ;;
+    balanced)
+      printf '{"text":"󰾅 Balanced","class":"balanced","tooltip":"Balanced mode - click to switch"}\n'
+      ;;
+    performance)
+      printf '{"text":"󰓅 Performance","class":"performance","tooltip":"Performance mode - click to switch"}\n'
+      ;;
+    *)
+      printf '{"text":"󰾅 Power","class":"unknown","tooltip":"Unknown power mode: %s"}\n' "$profile"
+      ;;
+  esac
+}
+
+set_profile() {
+  [ "$1" = "power-saver" ] || [ "$1" = "balanced" ] || [ "$1" = "performance" ] || exit 2
+  have_ppctl || exit 1
+  powerprofilesctl set "$1"
+}
+
+cycle() {
+  have_ppctl || exit 1
+  current="$(current_profile)"
+  powerprofilesctl set "$(next_profile "$current")"
+}
+
+case "${1:-status}" in
+  status)
+    status
+    ;;
+  cycle)
+    cycle
+    ;;
+  set)
+    set_profile "${2:-balanced}"
+    ;;
+  *)
+    exit 2
+    ;;
+esac

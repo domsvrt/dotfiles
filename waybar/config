@@ -1,0 +1,133 @@
+{
+  "layer": "top",
+  "position": "top",
+  "height": 15,
+  "spacing": 0,
+
+  "modules-left": [
+    "tray",
+    "sway/window"
+  ],
+  "modules-center": [
+  ],
+  "modules-right": [
+    "cpu",
+    "memory",
+    "custom/powermode",
+    "custom/night",
+    "backlight",
+    "pulseaudio",
+    "custom/network",
+    "battery",
+    "clock"
+  ],
+
+  "sway/window": {
+    "format": "{title}",
+    "max-length": 80,
+    "tooltip": false,
+    "empty-text": ""
+  },
+
+  "clock": {
+    "interval": 30,
+    "format": "{:%a %b %d  %I:%M %p}",
+    "tooltip-format": "<big>{:%A, %B %d, %Y}</big>\n{calendar}"
+  },
+
+  "cpu": {
+    "interval": 2,
+    "format": "󰻠 {usage}%",
+    "tooltip": true
+  },
+
+  "memory": {
+    "interval": 2,
+    "format": "󰍛 {percentage}% {used:0.1f}G/{total:0.1f}G",
+    "tooltip-format": "RAM: {used:0.1f}G used / {total:0.1f}G total\nAvailable: {avail:0.1f}G\nSwap: {swapPercentage}%",
+    "states": {
+      "warning": 80,
+      "critical": 90
+    }
+  },
+
+  "backlight": {
+    "format": "󰃟 {percent}%",
+    "tooltip": false
+  },
+
+  "network": {
+    "format-wifi": "󰖩 {essid} ({signalStrength}%)",
+    "format-ethernet": "󰈀 {ifname}",
+    "format-disconnected": "󰖪 Offline",
+    "tooltip-format": "{ifname} via {gwaddr}",
+    "on-click": "nm-connection-editor"
+  },
+
+  "custom/brightness": {
+    "exec": "~/.config/waybar/scripts/brightness status",
+    "return-type": "json",
+    "interval": 1,
+    "on-click": "~/.config/waybar/scripts/brightness cycle",
+    "on-scroll-up": "~/.config/waybar/scripts/brightness up",
+    "on-scroll-down": "~/.config/waybar/scripts/brightness down",
+    "tooltip": true
+  },
+
+  "custom/night": {
+    "exec": "~/.config/waybar/scripts/night-mode status",
+    "return-type": "json",
+    "interval": 2,
+    "on-click": "~/.config/waybar/scripts/night-mode toggle",
+    "tooltip": true
+  },
+
+  "custom/network": {
+    "exec": "~/.config/waybar/scripts/network status",
+    "return-type": "json",
+    "interval": 5,
+    "on-click": "~/.config/waybar/scripts/network menu",
+    "on-click-right": "~/.config/waybar/scripts/network toggle",
+    "on-click-middle": "~/.config/waybar/scripts/network disconnect",
+    "on-scroll-up": "~/.config/waybar/scripts/network rescan",
+    "tooltip": true
+  },
+
+  "custom/powermode": {
+    "exec": "~/.config/waybar/scripts/powermode status",
+    "return-type": "json",
+    "interval": 2,
+    "on-click": "~/.config/waybar/scripts/powermode cycle",
+    "tooltip": true
+  },
+
+  "tray": {
+    "icon-size": 16,
+    "spacing": 8
+  },
+
+  "pulseaudio": {
+    "format": "{icon} {volume}%",
+    "format-muted": "󰝟 Muted",
+    "format-icons": {
+      "default": ["󰕿", "󰖀", "󰕾"]
+    },
+    "scroll-step": 5,
+    "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+    "on-scroll-up": "wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+",
+    "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-",
+    "tooltip": true
+  },
+
+  "battery": {
+    "states": {
+      "warning": 30,
+      "critical": 15
+    },
+    "format": "{icon} {capacity}%",
+    "format-charging": "󰂄 {capacity}%",
+    "format-plugged": "󰚥 {capacity}%",
+    "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
+    "tooltip-format": "{timeTo} {capacity}%"
+  }
+}

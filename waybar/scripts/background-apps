@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+APPS=(
+  "OBS Studio|󰐾|obs,obs-studio,com.obsproject.Studio"
+  "Discord||discord"
+  "Spotify||spotify"
+  "Steam||steam"
+  "Telegram||telegram-desktop,telegram"
+)
+
+icons=()
+names_running=()
+
+for entry in "${APPS[@]}"; do
+  label="${entry%%|*}"
+  rest="${entry#*|}"
+  icon="${rest%%|*}"
+  proc_names="${rest#*|}"
+
+  matched=0
+  IFS=',' read -r -a names <<< "$proc_names"
+  for name in "${names[@]}"; do
+    if pgrep -x -- "$name" >/dev/null 2>&1; then
+      matched=1
+      break
+    fi
+  done
+
+  if [ "$matched" -eq 1 ]; then
+    icons+=("$icon")
+    names_running+=("$label")
+  fi
+done
+
+if [ ${#icons[@]} -eq 0 ]; then
+  printf '{"text":"","class":"off","tooltip":"No tracked background apps running"}\n'
+  exit 0
+fi
+
+icons_text="$(printf '%s  ' "${icons[@]}" | sed 's/  $//')"
+tooltip="Running: $(printf '%s, ' "${names_running[@]}" | sed 's/, $//')"
+
+tooltip_escaped=$(printf '%s' "$tooltip" | sed 's/\\/\\\\/g; s/"/\\"/g')
+text_escaped=$(printf '%s' "$icons_text" | sed 's/\\/\\\\/g; s/"/\\"/g')
+printf '{"text":"%s","class":"on","tooltip":"%s"}\n' "$text_escaped" "$tooltip_escaped"
