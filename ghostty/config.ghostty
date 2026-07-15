@@ -1,0 +1,29 @@
+theme = Catppuccin Mocha
+
+# Typography
+font-family = JetBrains Mono Nerd Font
+font-size = 13
+font-thicken = true
+
+# Window
+window-padding-x = 12
+window-padding-y = 10
+window-decoration = true
+window-theme = dark
+background = #000000
+background-opacity = .8
+background-blur = true
+
+
+# Cursor and selection accent
+cursor-color = #fab387
+selection-background = #fab387
+selection-foreground = #000000
+shell-integration = bash
+command = direct:/bin/bash --rcfile ~/.config/ghostty/bashrc
+cursor-style = block
+cursor-style-blink = true
+
+# Catppuccin Mocha accent overrides
+palette = 3=#fab387
+palette = 11=#fab387

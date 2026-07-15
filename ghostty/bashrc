@@ -1,0 +1,20 @@
+# Ghostty-specific Bash startup.
+# Load the normal Bash config first, then override the prompt for Ghostty.
+[ -f "$HOME/.bashrc" ] && . "$HOME/.bashrc"
+
+if [ -n "${debian_chroot:-}" ]; then
+    _ghostty_chroot="($debian_chroot)"
+else
+    _ghostty_chroot=""
+fi
+
+case "$TERM" in
+    xterm-color|*-256color)
+        PS1="${_ghostty_chroot}\[\033[01;34m\]\w\[\033[00m\]\$ "
+        ;;
+    *)
+        PS1="${_ghostty_chroot}\w\$ "
+        ;;
+esac
+
+unset _ghostty_chroot
