@@ -1,0 +1,14 @@
+# Custom rice keymap (keeps defaults, adds quality-of-life shortcuts)
+
+[manager]
+prepend_keymap = [
+  { on = [ "g", "h" ], run = "cd ~", desc = "Go home" },
+  { on = [ "g", "c" ], run = "cd ~/.config", desc = "Go to ~/.config" },
+  { on = [ "g", "d" ], run = "cd ~/Downloads", desc = "Go to ~/Downloads" },
+  { on = [ "z", "h" ], run = "hidden toggle", desc = "Toggle hidden files" },
+  { on = [ "z", "s" ], run = "linemode size", desc = "Linemode: size" },
+  { on = [ "z", "n" ], run = "linemode none", desc = "Linemode: none" },
+  { on = [ "E" ], run = "shell '$EDITOR \"$@\"' --confirm", desc = "Edit selected in $EDITOR" },
+  { on = [ "!" ], run = "shell '$SHELL' --block --confirm", desc = "Open shell here" },
+  { on = [ "W" ], run = "tasks_show", desc = "Show tasks" }
+]

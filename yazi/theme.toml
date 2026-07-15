@@ -1,0 +1,44 @@
+# Theme selection for Yazi
+[flavor]
+dark = "catppuccin-mocha"
+
+[icon]
+prepend_conds = [
+  { if = "dir", text = "", fg = "#fab387" },
+  { if = "link", text = "", fg = "#94e2d5" },
+  { if = "orphan", text = "", fg = "#f38ba8" },
+  { if = "exec", text = "", fg = "#a6e3a1" },
+]
+
+prepend_dirs = [
+  { name = ".git", text = "", fg = "#f38ba8" },
+  { name = ".config", text = "", fg = "#fab387" },
+  { name = "Documents", text = "󰈙", fg = "#f9e2af" },
+  { name = "Downloads", text = "󰇚", fg = "#fab387" },
+  { name = "Pictures", text = "󰉏", fg = "#89dceb" },
+]
+
+prepend_files = [
+  { name = ".gitignore", text = "", fg = "#f38ba8" },
+  { name = ".env", text = "", fg = "#a6e3a1" },
+  { name = "Dockerfile", text = "󰡨", fg = "#89dceb" },
+  { name = "Makefile", text = "", fg = "#f9e2af" },
+  { name = "README.md", text = "󰍔", fg = "#fab387" },
+]
+
+prepend_exts = [
+  { name = "lua", text = "", fg = "#fab387" },
+  { name = "js", text = "󰌞", fg = "#f9e2af" },
+  { name = "ts", text = "󰛦", fg = "#fab387" },
+  { name = "tsx", text = "", fg = "#89dceb" },
+  { name = "json", text = "", fg = "#f9e2af" },
+  { name = "toml", text = "", fg = "#94e2d5" },
+  { name = "yaml", text = "", fg = "#a6e3a1" },
+  { name = "yml", text = "", fg = "#a6e3a1" },
+  { name = "md", text = "", fg = "#fab387" },
+  { name = "sh", text = "", fg = "#a6e3a1" },
+  { name = "zsh", text = "", fg = "#a6e3a1" },
+  { name = "py", text = "", fg = "#f9e2af" },
+  { name = "go", text = "", fg = "#89dceb" },
+  { name = "rs", text = "", fg = "#fab387" },
+]

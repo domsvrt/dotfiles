@@ -1,0 +1,89 @@
+# Catppuccin Latte flavor for Yazi
+
+[mgr]
+cwd = { fg = "#1e66f5", bold = true }
+hovered = { fg = "#4c4f69", bg = "#ccd0da", bold = true }
+preview_hovered = { fg = "#4c4f69", bg = "#ccd0da", underline = true }
+find_keyword = { fg = "#df8e1d", bold = true }
+find_position = { fg = "#fe640b", bg = "reset", bold = true }
+marker_selected = { fg = "#eff1f5", bg = "#40a02b", bold = true }
+marker_copied = { fg = "#eff1f5", bg = "#df8e1d", bold = true }
+marker_cut = { fg = "#eff1f5", bg = "#d20f39", bold = true }
+
+[status]
+separator_open = ""
+separator_close = ""
+separator_style = { fg = "#bcc0cc", bg = "#bcc0cc" }
+mode_normal = { fg = "#eff1f5", bg = "#1e66f5", bold = true }
+mode_select = { fg = "#eff1f5", bg = "#40a02b", bold = true }
+mode_unset = { fg = "#eff1f5", bg = "#df8e1d", bold = true }
+progress_label = { fg = "#5c5f77", bold = true }
+progress_normal = { fg = "#1e66f5", bg = "#ccd0da" }
+progress_error = { fg = "#d20f39", bg = "#ccd0da" }
+
+[tabs]
+active = { fg = "#eff1f5", bg = "#1e66f5", bold = true }
+inactive = { fg = "#8c8fa1", bg = "#e6e9ef" }
+sep_inner = { open = "", close = "" }
+sep_outer = { open = "", close = "" }
+
+[mode]
+normal_main = { fg = "#eff1f5", bg = "#1e66f5", bold = true }
+normal_alt = { fg = "#1e66f5", bg = "#eff1f5" }
+select_main = { fg = "#eff1f5", bg = "#40a02b", bold = true }
+select_alt = { fg = "#40a02b", bg = "#eff1f5" }
+unset_main = { fg = "#eff1f5", bg = "#df8e1d", bold = true }
+unset_alt = { fg = "#df8e1d", bg = "#eff1f5" }
+
+[which]
+candidate = { fg = "#1e66f5", bold = true }
+rest = { fg = "#9ca0b0" }
+desc = { fg = "#ea76cb" }
+separator = " ➜ "
+separator_style = { fg = "#acb0be" }
+
+[input]
+border = { fg = "#179299" }
+title = {}
+value = {}
+selected = { fg = "#4c4f69", bg = "#ccd0da", bold = true }
+
+[completion]
+border = { fg = "#179299" }
+active = { fg = "#4c4f69", bg = "#ccd0da", bold = true }
+inactive = {}
+
+[tasks]
+border = { fg = "#8839ef" }
+title = { fg = "#ea76cb", bold = true }
+hovered = { fg = "#4c4f69", bg = "#ccd0da", bold = true }
+
+[help]
+on = { fg = "#ea76cb" }
+run = { fg = "#40a02b" }
+desc = { fg = "#7c7f93" }
+hovered = { bg = "#ccd0da", bold = true }
+footer = { fg = "#eff1f5", bg = "#1e66f5" }
+
+[filetype]
+rules = [
+  { mime = "inode/directory", fg = "#1e66f5", bold = true },
+  { mime = "image/*", fg = "#04a5e5" },
+  { mime = "video/*", fg = "#8839ef" },
+  { mime = "audio/*", fg = "#ea76cb" },
+  { mime = "application/zip", fg = "#fe640b" },
+  { mime = "application/gzip", fg = "#fe640b" },
+  { mime = "application/x-tar", fg = "#fe640b" },
+  { mime = "application/x-bzip", fg = "#fe640b" },
+  { mime = "application/x-bzip2", fg = "#fe640b" },
+  { mime = "application/x-7z-compressed", fg = "#fe640b" },
+  { mime = "application/x-rar", fg = "#fe640b" },
+  { mime = "application/pdf", fg = "#d20f39" },
+  { mime = "application/json", fg = "#df8e1d", bold = true },
+  { mime = "*/javascript", fg = "#df8e1d", bold = true },
+  { mime = "*/typescript", fg = "#1e66f5", bold = true },
+  { mime = "*/xml", fg = "#ea76cb" },
+  { mime = "*/x-wine-extension-ini", fg = "#40a02b" },
+  { mime = "text/*", fg = "#4c4f69" },
+  { mime = "*", fg = "#4c4f69" }
+]

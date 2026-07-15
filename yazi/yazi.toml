@@ -1,0 +1,24 @@
+[manager]
+show_hidden = true
+sort_by = "natural"
+sort_sensitive = false
+sort_reverse = false
+sort_dir_first = true
+linemode = "none"
+show_symlink = true
+ratio = [1, 3, 4]
+scrolloff = 8
+
+[preview]
+tab_size = 2
+max_width = 1600
+max_height = 1600
+cache_dir = ""
+
+[opener]
+edit = [
+  { run = '${EDITOR:-nvim} "$@"', desc = "$EDITOR", block = true, for = "unix" }
+]
+open = [
+  { run = 'xdg-open "$1"', desc = "Open", orphan = true, for = "linux" }
+]

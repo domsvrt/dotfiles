@@ -1,0 +1,130 @@
+# Catppuccin Mocha flavor for Yazi
+
+[mgr]
+cwd = { fg = "#fab387", bold = true }
+hovered = { fg = "#cdd6f4", bg = "#313244", bold = true }
+preview_hovered = { fg = "#cdd6f4", bg = "#313244", underline = true }
+find_keyword = { fg = "#f9e2af", bold = true }
+find_position = { fg = "#fab387", bg = "reset", bold = true }
+marker_selected = { fg = "#1e1e2e", bg = "#a6e3a1", bold = true }
+marker_copied = { fg = "#1e1e2e", bg = "#f9e2af", bold = true }
+marker_cut = { fg = "#1e1e2e", bg = "#f38ba8", bold = true }
+
+[status]
+separator_open = ""
+separator_close = ""
+separator_style = { fg = "#313244", bg = "#313244" }
+mode_normal = { fg = "#1e1e2e", bg = "#fab387", bold = true }
+mode_select = { fg = "#1e1e2e", bg = "#a6e3a1", bold = true }
+mode_unset = { fg = "#1e1e2e", bg = "#f9e2af", bold = true }
+progress_label = { fg = "#bac2de", bold = true }
+progress_normal = { fg = "#fab387", bg = "#45475a" }
+progress_error = { fg = "#f38ba8", bg = "#45475a" }
+
+[tabs]
+active = { fg = "#1e1e2e", bg = "#fab387", bold = true }
+inactive = { fg = "#7f849c", bg = "#1e1e2e" }
+sep_inner = { open = "", close = "" }
+sep_outer = { open = "", close = "" }
+
+[mode]
+normal_main = { fg = "#1e1e2e", bg = "#fab387", bold = true }
+normal_alt = { fg = "#fab387", bg = "#1e1e2e" }
+select_main = { fg = "#1e1e2e", bg = "#a6e3a1", bold = true }
+select_alt = { fg = "#a6e3a1", bg = "#1e1e2e" }
+unset_main = { fg = "#1e1e2e", bg = "#f9e2af", bold = true }
+unset_alt = { fg = "#f9e2af", bg = "#1e1e2e" }
+
+[which]
+candidate = { fg = "#fab387", bold = true }
+rest = { fg = "#6c7086" }
+desc = { fg = "#f5c2e7" }
+separator = " ➜ "
+separator_style = { fg = "#585b70" }
+
+[input]
+border = { fg = "#fab387" }
+title = {}
+value = {}
+selected = { fg = "#cdd6f4", bg = "#313244", bold = true }
+
+[completion]
+border = { fg = "#fab387" }
+active = { fg = "#cdd6f4", bg = "#313244", bold = true }
+inactive = {}
+
+[tasks]
+border = { fg = "#fab387" }
+title = { fg = "#fab387", bold = true }
+hovered = { fg = "#cdd6f4", bg = "#313244", bold = true }
+
+[help]
+on = { fg = "#f5c2e7" }
+run = { fg = "#a6e3a1" }
+desc = { fg = "#a6adc8" }
+hovered = { bg = "#313244", bold = true }
+footer = { fg = "#1e1e2e", bg = "#fab387" }
+
+[filetype]
+rules = [
+  { mime = "inode/directory", fg = "#fab387", bold = true },
+  { mime = "image/*", fg = "#fab387" },
+  { mime = "video/*", fg = "#cba6f7" },
+  { mime = "audio/*", fg = "#f5c2e7" },
+  { mime = "application/zip", fg = "#fab387" },
+  { mime = "application/gzip", fg = "#fab387" },
+  { mime = "application/x-tar", fg = "#fab387" },
+  { mime = "application/x-bzip", fg = "#fab387" },
+  { mime = "application/x-bzip2", fg = "#fab387" },
+  { mime = "application/x-7z-compressed", fg = "#fab387" },
+  { mime = "application/x-rar", fg = "#fab387" },
+  { mime = "application/pdf", fg = "#f38ba8" },
+  { mime = "application/json", fg = "#f9e2af", bold = true },
+  { mime = "*/javascript", fg = "#f9e2af", bold = true },
+  { mime = "*/typescript", fg = "#fab387", bold = true },
+  { mime = "*/xml", fg = "#f5c2e7" },
+  { mime = "*/x-wine-extension-ini", fg = "#a6e3a1" },
+  { mime = "text/*", fg = "#cdd6f4" },
+  { mime = "*", fg = "#cdd6f4" },
+]
+
+[icon]
+prepend_conds = [
+  { if = "dir", text = "", fg = "#fab387" },
+  { if = "link", text = "", fg = "#94e2d5" },
+  { if = "orphan", text = "", fg = "#f38ba8" },
+  { if = "exec", text = "", fg = "#a6e3a1" },
+]
+
+prepend_dirs = [
+  { name = ".git", text = "", fg = "#f38ba8" },
+  { name = ".config", text = "", fg = "#fab387" },
+  { name = "Documents", text = "󰈙", fg = "#f9e2af" },
+  { name = "Downloads", text = "󰇚", fg = "#fab387" },
+  { name = "Pictures", text = "󰉏", fg = "#89dceb" },
+]
+
+prepend_files = [
+  { name = ".gitignore", text = "", fg = "#f38ba8" },
+  { name = ".env", text = "", fg = "#a6e3a1" },
+  { name = "Dockerfile", text = "󰡨", fg = "#89dceb" },
+  { name = "Makefile", text = "", fg = "#f9e2af" },
+  { name = "README.md", text = "󰍔", fg = "#fab387" },
+]
+
+prepend_exts = [
+  { name = "lua", text = "", fg = "#fab387" },
+  { name = "js", text = "󰌞", fg = "#f9e2af" },
+  { name = "ts", text = "󰛦", fg = "#fab387" },
+  { name = "tsx", text = "", fg = "#89dceb" },
+  { name = "json", text = "", fg = "#f9e2af" },
+  { name = "toml", text = "", fg = "#94e2d5" },
+  { name = "yaml", text = "", fg = "#a6e3a1" },
+  { name = "yml", text = "", fg = "#a6e3a1" },
+  { name = "md", text = "", fg = "#fab387" },
+  { name = "sh", text = "", fg = "#a6e3a1" },
+  { name = "zsh", text = "", fg = "#a6e3a1" },
+  { name = "py", text = "", fg = "#f9e2af" },
+  { name = "go", text = "", fg = "#89dceb" },
+  { name = "rs", text = "", fg = "#fab387" },
+]
