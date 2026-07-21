@@ -1,0 +1,83 @@
+#!/bin/sh
+set -eu
+
+json_escape() {
+  printf '%s' "$1" | sed 's/\\/\\\\/g; s/"/\\"/g'
+}
+
+bt() {
+  sh -c 'bluetoothctl "$@" 2>/dev/null' sh "$@" 2>/dev/null || true
+}
+
+connected_device() {
+  connected="$(bt devices Connected)"
+  if [ -n "$connected" ]; then
+    printf '%s\n' "$connected" | awk '/^Device / { mac=$2; sub(/^Device [^ ]+ /, ""); print mac "\t" $0; exit }'
+    return
+  fi
+
+  bt devices | awk '/^Device / { print $2 }' | while read -r mac; do
+    [ -n "$mac" ] || continue
+    if bt info "$mac" | awk -F': ' '$1 ~ /^[[:space:]]*Connected$/ && $2 == "yes" { found=1 } END { exit !found }'; then
+      name="$(bt info "$mac" | awk -F': ' '$1 ~ /^[[:space:]]*Name$/ { print $2; exit }')"
+      [ -n "$name" ] || name="$mac"
+      printf '%s\t%s\n' "$mac" "$name"
+      break
+    fi
+  done
+}
+
+battery_from_bluetoothctl() {
+  bt info "$1" | awk '
+    /Battery Percentage/ {
+      if (match($0, /\(([0-9]+)\)/)) {
+        print substr($0, RSTART + 1, RLENGTH - 2)
+        exit
+      }
+    }
+  '
+}
+
+battery_from_upower() {
+  command -v upower >/dev/null 2>&1 || return 0
+  mac_key="$(printf '%s' "$1" | tr ':' '_')"
+  device="$(upower -e 2>/dev/null | grep -i "$mac_key" | head -n 1 || true)"
+  [ -n "$device" ] || return 0
+  upower -i "$device" 2>/dev/null | awk '/percentage:/ { gsub("%", "", $2); print $2; exit }'
+}
+
+status() {
+  if ! command -v bluetoothctl >/dev/null 2>&1; then
+    printf '{"text":"󰂲","class":"missing","tooltip":"bluetoothctl not found"}\n'
+    exit 0
+  fi
+
+  powered="$(bt show | awk -F': ' '$1 ~ /^[[:space:]]*Powered$/ { print $2; exit }')"
+  if [ "${powered:-no}" != "yes" ]; then
+    printf '{"text":"󰂲","class":"off","tooltip":"Bluetooth off"}\n'
+    exit 0
+  fi
+
+  device="$(connected_device)"
+  if [ -z "$device" ]; then
+    printf '{"text":"󰂯","class":"off","tooltip":"Bluetooth on - no device connected"}\n'
+    exit 0
+  fi
+
+  mac="$(printf '%s' "$device" | awk -F '\t' '{ print $1 }')"
+  name="$(printf '%s' "$device" | awk -F '\t' '{ print $2 }')"
+  battery="$(battery_from_bluetoothctl "$mac")"
+  [ -n "$battery" ] || battery="$(battery_from_upower "$mac")"
+
+  safe_name="$(json_escape "$name")"
+  if [ -n "$battery" ]; then
+    printf '{"text":"󰂯 %s%%","class":"on","tooltip":"%s: %s%%"}\n' "$battery" "$safe_name" "$battery"
+  else
+    printf '{"text":"󰂯","class":"on","tooltip":"%s connected - battery unavailable"}\n' "$safe_name"
+  fi
+}
+
+case "${1:-status}" in
+  status) status ;;
+  *) exit 2 ;;
+esac

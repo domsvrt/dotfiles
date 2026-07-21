@@ -13,11 +13,12 @@
   "modules-right": [
     "cpu",
     "memory",
-    "custom/powermode",
-    "custom/night",
+    "custom/powermode", 
+    "custom/night", 
     "backlight",
     "pulseaudio",
-    "network",
+    "custom/bluetooth",
+    "network", 
     "battery",
     "clock"
   ],
@@ -79,6 +80,14 @@
     "return-type": "json",
     "interval": 2,
     "on-click": "~/.config/waybar/scripts/night-mode toggle",
+    "tooltip": true
+  },
+
+  "custom/bluetooth": {
+    "exec": "~/.config/waybar/scripts/bluetooth status",
+    "return-type": "json",
+    "interval": 1,
+    "on-click": "blueman-manager",
     "tooltip": true
   },
 
