@@ -17,7 +17,7 @@
     "custom/night",
     "backlight",
     "pulseaudio",
-    "custom/network",
+    "network",
     "battery",
     "clock"
   ],
@@ -57,7 +57,7 @@
   },
 
   "network": {
-    "format-wifi": "󰖩 {essid} ({signalStrength}%)",
+    "format-wifi": "󰖩 {signalStrength}%",
     "format-ethernet": "󰈀 {ifname}",
     "format-disconnected": "󰖪 Offline",
     "tooltip-format": "{ifname} via {gwaddr}",
@@ -79,17 +79,6 @@
     "return-type": "json",
     "interval": 2,
     "on-click": "~/.config/waybar/scripts/night-mode toggle",
-    "tooltip": true
-  },
-
-  "custom/network": {
-    "exec": "~/.config/waybar/scripts/network status",
-    "return-type": "json",
-    "interval": 5,
-    "on-click": "~/.config/waybar/scripts/network menu",
-    "on-click-right": "~/.config/waybar/scripts/network toggle",
-    "on-click-middle": "~/.config/waybar/scripts/network disconnect",
-    "on-scroll-up": "~/.config/waybar/scripts/network rescan",
     "tooltip": true
   },
 
