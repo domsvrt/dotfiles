@@ -61,8 +61,7 @@
     "format-wifi": "󰖩 {signalStrength}%",
     "format-ethernet": "󰈀 {ifname}",
     "format-disconnected": "󰖪 Offline",
-    "tooltip-format": "{ifname} via {gwaddr}",
-    "on-click": "nm-connection-editor"
+    "tooltip-format": "{ifname} via {gwaddr}"
   },
 
   "custom/brightness": {
