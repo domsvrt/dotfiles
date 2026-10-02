@@ -11,10 +11,10 @@ current_profile() {
 
 next_profile() {
   case "$1" in
-    power-saver) printf "balanced\n" ;;
-    balanced) printf "performance\n" ;;
-    performance) printf "power-saver\n" ;;
-    *) printf "balanced\n" ;;
+  power-saver) printf "balanced\n" ;;
+  balanced) printf "performance\n" ;;
+  performance) printf "power-saver\n" ;;
+  *) printf "balanced\n" ;;
   esac
 }
 
@@ -26,18 +26,18 @@ status() {
 
   profile="$(current_profile)"
   case "$profile" in
-    power-saver)
-      printf '{"text":"󰾆 Saver","class":"saver","tooltip":"Power Saver mode - click to switch"}\n'
-      ;;
-    balanced)
-      printf '{"text":"󰾅 Balanced","class":"balanced","tooltip":"Balanced mode - click to switch"}\n'
-      ;;
-    performance)
-      printf '{"text":"󰓅 Performance","class":"performance","tooltip":"Performance mode - click to switch"}\n'
-      ;;
-    *)
-      printf '{"text":"󰾅 Power","class":"unknown","tooltip":"Unknown power mode: %s"}\n' "$profile"
-      ;;
+  power-saver)
+    printf '{"text":"󰾆 S","class":"saver","tooltip":"Power Saver mode - click to switch"}\n'
+    ;;
+  balanced)
+    printf '{"text":"󰾅 B","class":"balanced","tooltip":"Balanced mode - click to switch"}\n'
+    ;;
+  performance)
+    printf '{"text":"󰓅 P","class":"performance","tooltip":"Performance mode - click to switch"}\n'
+    ;;
+  *)
+    printf '{"text":"󰾅 Power","class":"unknown","tooltip":"Unknown power mode: %s"}\n' "$profile"
+    ;;
   esac
 }
 
@@ -54,16 +54,16 @@ cycle() {
 }
 
 case "${1:-status}" in
-  status)
-    status
-    ;;
-  cycle)
-    cycle
-    ;;
-  set)
-    set_profile "${2:-balanced}"
-    ;;
-  *)
-    exit 2
-    ;;
+status)
+  status
+  ;;
+cycle)
+  cycle
+  ;;
+set)
+  set_profile "${2:-balanced}"
+  ;;
+*)
+  exit 2
+  ;;
 esac
